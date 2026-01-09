@@ -1,16 +1,17 @@
+import { RESET_BUTTON, SUBMIT_BUTTON } from "../../constants/constants";
 import type { Jobs } from "../../types/JobType";
 
 interface CreateJobProps {
-  loading: boolean;
-  error: string | null;
-  jobs: Jobs;
-  success: boolean;
   onChange: (
     e: React.ChangeEvent<
       HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement
     >
   ) => void;
   onSubmit: (e: React.FormEvent) => void;
+  jobs: Jobs;
+  error: string | null;
+  loading: boolean;
+  success: boolean;
 }
 
 const CreateJobcomponent = ({
@@ -29,7 +30,7 @@ const CreateJobcomponent = ({
       >
         <h2 className="text-xl font-semibold">Create Job</h2>
 
-        {error && ( 
+        {error && (
           <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
             {error}
           </div>
@@ -152,14 +153,14 @@ const CreateJobcomponent = ({
             disabled={loading}
             className="text-white bg-blue-600 p-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400 text-sm font-semibold px-6 shadow-md"
           >
-            {loading ? "Submitting..." : "Submit"}
+            {loading ? "Submitting..." : `${SUBMIT_BUTTON}`}
           </button>
           <button
             type="button"
             onClick={() => window.location.reload()}
             className="text-black p-2 rounded-md border border-gray-300 hover:bg-gray-100 text-sm font-semibold px-6 shadow-md"
           >
-            Reset
+            {RESET_BUTTON}
           </button>
         </div>
       </form>
