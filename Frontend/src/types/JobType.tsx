@@ -39,8 +39,14 @@ export interface alljob{
   updatedAt:string
 }
 
+export interface paginationData{
+  currentPage:number,
+  totalPages:number,
+  totalResults:number
+}
 export interface AllJobResponse{
   message:string,
+  pagination:paginationData,
   data:alljob[]
 }
 

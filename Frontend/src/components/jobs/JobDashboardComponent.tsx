@@ -1,10 +1,11 @@
-import type { alljob, JobMetrics } from "@/types/JobType";
+import type { alljob, JobMetrics, paginationData } from "@/types/JobType";
 import type React from "react";
 import JobCardComponent from "./JobCardComponent";
 import {
   GRID_BUTTON,
   JOB_CARDS_TITLE,
   JOB_DASHBOARD_DESCRP,
+  JOB_DASHBOARD_TITLE,
   LIST_BUTTON,
   NEW_JOB_BUTTON,
   NEXT_BUTTON,
@@ -16,30 +17,34 @@ import JobMetricsComponent from "./JobMetricsComponent";
 
 interface JobDashboardProps {
   jobs: alljob[];
+  pagination?:paginationData,
   loading: boolean;
   error: string | null;
   viewMode: "grid" | "list";
   onviewchange: (mode: "grid" | "list") => void;
+  onJobCreateClick:()=>void;
   jobMetrics: JobMetrics[];
 }
 
 const JobDashboardComponent: React.FC<JobDashboardProps> = ({
   jobs,
+  pagination,
   loading,
   error,
   viewMode,
   jobMetrics,
   onviewchange,
+  onJobCreateClick
 }) => {
   return (
-    <div className="min-h-screen bg-gray-100 space-y-6 p-6">
+    <div className="min-h-screen bg-gray-100 space-y-5 p-6">
       <div className="flex flex-col space-y-3">
-        <h1 className="text-3xl text-gray-900 font-semibold">Job Workspace</h1>
+        <h1 className="text-3xl text-gray-900 font-semibold">{JOB_DASHBOARD_TITLE}</h1>
         <div className="flex justify-between">
           <div>
             <p className="text-gray-400 text-md">{JOB_DASHBOARD_DESCRP}</p>
           </div>
-          <button className="px-4 p-2 bg-gray-900 hover:bg-gray-700 text-sm text-white rounded-md">
+          <button onClick={onJobCreateClick} className="px-4 p-2 bg-gray-900 hover:bg-gray-700 text-sm text-white rounded-md">
             {NEW_JOB_BUTTON}
           </button>
         </div>
@@ -69,13 +74,16 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
             {LIST_BUTTON}
           </button>
         </div>
-        <div className="flex items-center gap-2 pr-2">
-          <button className="px-2 py-1 border rounded shadow-lg text-xs bg-gray-50 hover:bg-gray-300 font-medium text-gray-400 hover:text-gray-900">
-            {PREV_BUTTON}
-          </button>
-          <button className="px-2 py-1 border rounded shadow-lg text-xs bg-gray-50 hover:bg-gray-300 font-medium text-gray-400 hover:text-gray-900">
-            {NEXT_BUTTON}
-          </button>
+        <div className="flex items-center flex-row gap-2">
+          <span className="text-sm">Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1}</span>
+          <div className="flex items-center gap-2 pr-2">
+            <button className="px-2 py-1 border rounded shadow-lg text-xs bg-gray-50 hover:bg-gray-300 font-medium text-gray-400 hover:text-gray-900">
+              {PREV_BUTTON}
+            </button>
+            <button className="px-2 py-1 border rounded shadow-lg text-xs bg-gray-50 hover:bg-gray-300 font-medium text-gray-400 hover:text-gray-900">
+              {NEXT_BUTTON}
+            </button>
+          </div>
         </div>
       </div>
       <div className="rounded bg-white w-full shadow-lg p-6">
