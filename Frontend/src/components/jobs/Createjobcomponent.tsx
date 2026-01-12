@@ -1,17 +1,17 @@
-import { RESET_BUTTON, SUBMIT_BUTTON } from "../../constants/constants";
+import { CREATE_JOB_TITLE, JOB_LABEL_DEPARTMENT, JOB_LABEL_DESCRIPTION, JOB_LABEL_HEADCOUNT, JOB_LABEL_LOCATION, JOB_LABEL_REQUIREMENTS, JOB_LABEL_STATUS, JOB_LABEL_TITLE, JOB_SUCCESS_MESSAGE, RESET_BUTTON, SUBMIT_BUTTON } from "../../constants/constants";
 import type { Jobs } from "../../types/JobType";
 
 interface CreateJobProps {
+  loading: boolean;
+  success: boolean;
+  jobs: Jobs;
+  error: string | null;
   onChange: (
     e: React.ChangeEvent<
       HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement
     >
   ) => void;
   onSubmit: (e: React.FormEvent) => void;
-  jobs: Jobs;
-  error: string | null;
-  loading: boolean;
-  success: boolean;
 }
 
 const CreateJobcomponent = ({
@@ -28,7 +28,7 @@ const CreateJobcomponent = ({
         onSubmit={onSubmit}
         className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-4"
       >
-        <h2 className="text-xl font-semibold">Create Job</h2>
+        <h2 className="text-xl font-semibold">{CREATE_JOB_TITLE}</h2>
 
         {error && (
           <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
@@ -38,14 +38,14 @@ const CreateJobcomponent = ({
 
         {success && (
           <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-            Job created successfully!
+            {JOB_SUCCESS_MESSAGE}
           </div>
         )}
 
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col">
             <label className="text-sm font-medium mb-1 text-gray-600">
-              Job Title
+             {JOB_LABEL_TITLE}
             </label>
             <input
               name="title"
@@ -58,7 +58,7 @@ const CreateJobcomponent = ({
           </div>
           <div className="flex flex-col">
             <label className="text-sm font-medium mb-1 text-gray-600">
-              Department
+              {JOB_LABEL_DEPARTMENT}
             </label>
             <input
               name="department"
@@ -74,7 +74,7 @@ const CreateJobcomponent = ({
         <div className="grid grid-cols-3 gap-4">
           <div className="flex flex-col">
             <label className="text-sm font-medium mb-1 text-gray-600">
-              Location
+              {JOB_LABEL_LOCATION}
             </label>
             <input
               name="location"
@@ -87,7 +87,7 @@ const CreateJobcomponent = ({
           </div>
           <div className="flex flex-col">
             <label className="text-sm font-medium mb-1 text-gray-600">
-              Status
+              {JOB_LABEL_STATUS}
             </label>
             <select
               name="status"
@@ -102,7 +102,7 @@ const CreateJobcomponent = ({
           </div>
           <div className="flex flex-col">
             <label className="text-sm font-medium mb-1 text-gray-600">
-              Headcount
+              {JOB_LABEL_HEADCOUNT}
             </label>
             <input
               type="number"
@@ -119,7 +119,7 @@ const CreateJobcomponent = ({
 
         <div className="flex flex-col">
           <label className="text-sm font-medium mb-1 text-gray-600">
-            Description
+            {JOB_LABEL_DESCRIPTION}
           </label>
           <textarea
             name="description"
@@ -134,7 +134,7 @@ const CreateJobcomponent = ({
 
         <div className="flex flex-col">
           <label className="text-sm font-medium mb-1 text-gray-600">
-            Requirements
+            {JOB_LABEL_REQUIREMENTS}
           </label>
           <textarea
             name="requirements"
