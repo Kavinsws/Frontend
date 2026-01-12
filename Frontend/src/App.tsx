@@ -1,12 +1,10 @@
-
-import './App.css'
-import CreateJobComponent from './components/CreateJobComponent'
+import CreateJobContainer from "./containers/CreateJobContainer"
 
 function App() {
 
   return (
     <>
-    <CreateJobComponent/>
+    <CreateJobContainer/>
     </>
   )
 }
