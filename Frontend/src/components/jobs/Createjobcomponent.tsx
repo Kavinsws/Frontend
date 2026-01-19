@@ -23,10 +23,10 @@ const CreateJobcomponent = ({
   onSubmit,
 }: CreateJobProps) => {
   return (
-    <div className="min-h-screen p-8 bg-gray-50">
+    <div className="flex items-center min-h-screen  p-8 bg-gray-50">
       <form
         onSubmit={onSubmit}
-        className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-4"
+        className="w-full mx-auto p-6 bg-white shadow-md rounded-lg space-y-4"
       >
         <h2 className="text-xl font-semibold">{CREATE_JOB_TITLE}</h2>
 
