@@ -1,7 +1,8 @@
 import React from "react";
 import type { alljob } from "@/types/JobType";
 import { JOB_CARD_HEADCOUNT, JOB_CARD_UPDATE } from "@/constants/constants";
-
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 const getStatusStyles = (status: string) => {
   switch (status) {
@@ -36,8 +37,8 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode }) => {
               </span>
             </div>
             <div className=" flex-row space-x-2 hidden group-hover:block">
-              <button className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400">Update</button>
-              <button className="rounded p-1 text-sm bg-red-200 hover:bg-red-400">Delete</button>
+              <button className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400"><MdEdit/></button>
+              <button className="rounded p-1 text-sm bg-red-200 hover:bg-red-400"><MdDelete/></button>
             </div>
           </div>
           <div className="text-sm text-gray-500">
@@ -76,10 +77,10 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode }) => {
         </div>
         <div className=" flex-row space-x-2 hidden group-hover:block ">
           <button className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400">
-            Update
+            <MdEdit/>
           </button>
           <button className="rounded p-1 text-sm bg-red-200 hover:bg-red-400">
-            Delete
+            <MdDelete/>
           </button>
         </div>
       </div>

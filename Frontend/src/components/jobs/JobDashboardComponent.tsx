@@ -14,6 +14,7 @@ import {
   VIEW_MODE_LABEL,
 } from "@/constants/constants";
 import JobMetricsComponent from "./JobMetricsComponent";
+import { IoMdAdd } from "react-icons/io";
 
 interface JobDashboardProps {
   jobs: alljob[];
@@ -39,13 +40,21 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
   return (
     <div className="min-h-screen bg-gray-100 space-y-5 p-6">
       <div className="flex flex-col space-y-3">
-        <h1 className="text-3xl text-gray-900 font-semibold">{JOB_DASHBOARD_TITLE}</h1>
+        <h1 className="text-3xl text-gray-900 font-semibold">
+          {JOB_DASHBOARD_TITLE}
+        </h1>
         <div className="flex justify-between">
           <div>
             <p className="text-gray-400 text-md">{JOB_DASHBOARD_DESCRP}</p>
           </div>
-          <button onClick={onJobCreateClick} className="px-4 p-2 bg-gray-900 hover:bg-gray-700 text-sm text-white rounded-md">
-            {NEW_JOB_BUTTON}
+          <button
+            onClick={onJobCreateClick}
+            className="px-4 p-2 bg-gray-900 hover:bg-gray-700 text-md text-white rounded-md"
+          >
+            <span className="flex flex-row items-center justify-between gap-2">
+              <IoMdAdd />
+              {NEW_JOB_BUTTON}
+            </span>
           </button>
         </div>
       </div>
@@ -75,7 +84,9 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
           </button>
         </div>
         <div className="flex items-center flex-row gap-2">
-          <span className="text-sm">Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1}</span>
+          <span className="text-sm">
+            Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1}
+          </span>
           <div className="flex items-center gap-2 pr-2">
             <button className="px-2 py-1 border rounded shadow-lg text-xs bg-gray-50 hover:bg-gray-300 font-medium text-gray-400 hover:text-gray-900">
               {PREV_BUTTON}
