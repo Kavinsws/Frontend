@@ -8,11 +8,11 @@ const SideBarContainer = ()=>{
     const location = useLocation();
     
     const SideBarItems = [
-        {id:"jobs",label:"Jobs",path:"/jobs",icon:FaSuitcase},
+        {id:"jobs",label:"Jobs",path:"/",icon:FaSuitcase},
         {id:"screening",label:"Screening",path:"/screening",icon:GrDocumentText}
     ]
 
-    const activeItem = SideBarItems.find((item)=> location.pathname.startsWith(item.path))?.id??"jobs";
+    const activeItem = SideBarItems.find((item)=> location.pathname.startsWith(item.path))?.id??"/";
 
     const handleClick = (id:string)=>{
         const item = SideBarItems.find((i)=>i.id === id)

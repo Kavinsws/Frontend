@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import CreateJobContainer from "./containers/CreateJobContainer"
 import JobsLayout from "./layouts/JobsLayout"
+import JobDashboardContainer from "./containers/JobDashboardContainer"
 
 function App() {
 
@@ -8,7 +9,8 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route element={<JobsLayout/>}>
-        <Route path="/jobs" element={<CreateJobContainer/>}/>
+        <Route path="/" element={<JobDashboardContainer/>}/>
+        <Route path="/newJob" element={<CreateJobContainer/>}/>
       </Route>
     </Routes>
     </BrowserRouter>
