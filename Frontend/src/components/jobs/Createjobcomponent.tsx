@@ -1,4 +1,4 @@
-import { CREATE_JOB_TITLE, JOB_LABEL_DEPARTMENT, JOB_LABEL_DESCRIPTION, JOB_LABEL_HEADCOUNT, JOB_LABEL_LOCATION, JOB_LABEL_REQUIREMENTS, JOB_LABEL_STATUS, JOB_LABEL_TITLE, JOB_SUCCESS_MESSAGE, RESET_BUTTON, SUBMIT_BUTTON } from "../../constants/constants";
+import { CREATE_JOB_TITLE, JOB_LABEL_DEPARTMENT, JOB_LABEL_DESCRIPTION, JOB_LABEL_HEADCOUNT, JOB_LABEL_LOCATION, JOB_LABEL_REQUIREMENTS, JOB_LABEL_STATUS, JOB_LABEL_TITLE, JOB_STATUS_CLOSED, JOB_STATUS_HOLD, JOB_STATUS_OPEN, JOB_SUCCESS_MESSAGE, RESET_BUTTON, SUBMIT_BUTTON } from "../../constants/constants";
 import type { Jobs } from "../../types/JobType";
 
 interface CreateJobProps {
@@ -95,9 +95,9 @@ const CreateJobcomponent = ({
               onChange={onChange}
               className="p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 shadow-sm"
             >
-              <option value="OPEN">Open</option>
-              <option value="CLOSED">Closed</option>
-              <option value="DRAFT">Draft</option>
+              <option value="OPEN">{JOB_STATUS_OPEN}</option>
+              <option value="CLOSED">{JOB_STATUS_CLOSED}</option>
+              <option value="HOLD">{JOB_STATUS_HOLD}</option>
             </select>
           </div>
           <div className="flex flex-col">

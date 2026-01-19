@@ -2,6 +2,7 @@ import React from "react";
 import type { alljob } from "@/types/JobType";
 import { JOB_CARD_HEADCOUNT, JOB_CARD_UPDATE } from "@/constants/constants";
 
+
 const getStatusStyles = (status: string) => {
   switch (status) {
     case "OPEN":
