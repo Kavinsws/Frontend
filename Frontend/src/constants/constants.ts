@@ -53,3 +53,7 @@ export const JOB_STATUS_OPEN:string ="OPEN"
 export const JOB_STATUS_HOLD:string = "HOLD"
 
 export const JOB_STATUS_CLOSED:string = "CLOSED"
+
+export const SIDEBAR_TITLE:string = "Atlas ATS"
+
+export const SIDEBAR_DESCRIPTION: string = "Hiring + Screening Console";

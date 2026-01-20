@@ -1,7 +1,8 @@
+import { SIDEBAR_DESCRIPTION, SIDEBAR_TITLE } from "@/constants/constants";
 import { CiGrid42 } from "react-icons/ci";
 import { MdOutlineVerified } from "react-icons/md";
 
-interface SideBarItem {
+type SideBarItem ={
   id: string;
   label: string;
   icon: React.ElementType
@@ -22,10 +23,10 @@ const SideBarComponent = ({ items, activeId, onItemClick }: SideBarProps) => {
         </div>
         <div className="flex flex-col">
           <div className="flex flex-row items-center text-left gap-2 font-semibold">
-            <h2>Atlas ATS</h2>
+            <h2>{SIDEBAR_TITLE}</h2>
             <MdOutlineVerified/>
           </div>
-          <span className="text-sm">Hiring + Screening Console</span>
+          <span className="text-sm">{SIDEBAR_DESCRIPTION}</span>
         </div>
       </div>
       <ul className="space-y-2 p-4">
