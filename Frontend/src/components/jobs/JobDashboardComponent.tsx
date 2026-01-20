@@ -24,6 +24,7 @@ interface JobDashboardProps {
   viewMode: "grid" | "list";
   onviewchange: (mode: "grid" | "list") => void;
   onJobCreateClick:()=>void;
+  onDelete: (id:string)=>void;
   jobMetrics: JobCounts[];
 }
 
@@ -35,7 +36,8 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
   viewMode,
   jobMetrics,
   onviewchange,
-  onJobCreateClick
+  onJobCreateClick,
+  onDelete
 }) => {
   return (
     <div className="min-h-screen bg-gray-100 space-y-5 p-6">
@@ -61,7 +63,7 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
       {!loading && !error && (
         <div className="grid grid-cols-4 gap-4">
           {jobMetrics.map((metric) => (
-            <JobMetricsComponent key={metric.id} metrics={metric} />
+            <JobMetricsComponent key={metric.id} metrics={metric}/>
           ))}
         </div>
       )}
@@ -109,7 +111,7 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
             }
           >
             {jobs.map((job) => (
-              <JobCardComponent key={job.id} job={job} viewmode={viewMode} />
+              <JobCardComponent key={job.id} job={job} viewmode={viewMode} onDelete={onDelete}/>
             ))}
           </div>
         )}

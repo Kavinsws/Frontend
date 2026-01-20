@@ -1,4 +1,4 @@
-import { getAllJobs, getJobStatusCounts } from "@/apis/JobApi";
+import { deleteJob, getAllJobs, getJobStatusCounts } from "@/apis/JobApi";
 import JobDashboardComponent from "@/components/jobs/JobDashboardComponent";
 import type { alljob, JobCounts, paginationData } from "@/types/JobType";
 import React, { useEffect, useState } from "react";
@@ -15,6 +15,22 @@ const JobDashboardContainer: React.FC = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("list");
   const [metrics, setMetrics] = useState<JobCounts[]>([]);
   const [paginationData,setPaginationData] = useState<paginationData>();
+
+  const handleDelete = async (id : string) =>{
+    try{
+      setIsLoading(true);
+      await deleteJob(id);
+      const mockData = await getAllJobs();
+      setJobs(mockData.data);
+      setPaginationData(mockData.pagination);
+    }
+    catch(error){
+      setError(error as string);
+    }
+    finally{
+      setIsLoading(false);
+    }
+  }
   useEffect(() => {
     const fetchAllJobs = async () => {
       try {
@@ -50,6 +66,7 @@ const JobDashboardContainer: React.FC = () => {
       loading={loading}
       viewMode={viewMode}
       jobMetrics={metrics}
+      onDelete={handleDelete}
     />
   );
 };
