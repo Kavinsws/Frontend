@@ -50,8 +50,16 @@ export interface AllJobResponse{
   data:alljob[]
 }
 
-export interface JobMetrics{
+export interface JobCounts{
   id:string,
   status:string,
   count:number
+}
+
+export interface JobCountResponse{
+  message:string,
+  totalJobs:number,
+  openJobs:number,
+  closedJobs:number,
+  inReviewJobs:number,  
 }

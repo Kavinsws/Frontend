@@ -1,8 +1,8 @@
 import { JOB_METRICS_LOGO } from "@/constants/constants";
-import type { JobMetrics } from "@/types/JobType";
+import type {  JobCounts } from "@/types/JobType";
 
 interface JobMetricsProps {
-  metrics: JobMetrics;
+  metrics: JobCounts;
 }
 
 const JobMetricsComponent: React.FC<JobMetricsProps> = ({ metrics }) => {
