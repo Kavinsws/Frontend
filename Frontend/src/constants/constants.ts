@@ -50,7 +50,7 @@ export const JOB_LABEL_REQUIREMENTS: string = "Requirements"
 
 export const JOB_STATUS_OPEN:string ="OPEN"
 
-export const JOB_STATUS_HOLD:string = "HOLD"
+export const JOB_STATUS_IN_REVIEW:string = "IN_REVIEW"
 
 export const JOB_STATUS_CLOSED:string = "CLOSED"
 
