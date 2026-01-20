@@ -71,3 +71,19 @@ export const getJobStatusCounts = async() : Promise<JobCountResponse> =>{
     throw new Error("Error fetching Jobs");
   }
 }
+
+export const deleteJob = async(id:string):Promise<void> =>{
+  try{
+    await axios.delete(`${baseUrl}/deleteJob/${id}`);
+    
+  }
+  catch(error){
+    if(axios.isAxiosError(error)){  
+      const status =  error.response?.status;
+      if(status === 400){
+        throw new Error("Validation error");
+      }
+      throw new Error("Error while deleting job");
+    }
+  }
+}

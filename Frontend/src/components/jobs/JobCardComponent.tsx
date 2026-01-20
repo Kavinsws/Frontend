@@ -18,9 +18,10 @@ const getStatusStyles = (status: string) => {
 interface JobCardProps {
   job: alljob;
   viewmode: "grid" | "list";
+  onDelete: (id:string)=> void;
 }
 
-const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode }) => {
+const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode,onDelete }) => {
   if (viewmode === "grid") {
     return (
       <div className="relative group bg-white w-full border border-gray-300 hover:bg-gray-100 hover:border-gray-600  rounded-lg p-3">
@@ -38,7 +39,7 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode }) => {
             </div>
             <div className=" flex-row space-x-2 hidden group-hover:block">
               <button className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400"><MdEdit/></button>
-              <button className="rounded p-1 text-sm bg-red-200 hover:bg-red-400"><MdDelete/></button>
+              <button onClick={()=>onDelete(job.id)} className="rounded p-1 text-sm bg-red-200 hover:bg-red-400"><MdDelete/></button>
             </div>
           </div>
           <div className="text-sm text-gray-500">
@@ -79,7 +80,7 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode }) => {
           <button className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400">
             <MdEdit/>
           </button>
-          <button className="rounded p-1 text-sm bg-red-200 hover:bg-red-400">
+          <button onClick={()=>onDelete(job.id)} className="rounded p-1 text-sm bg-red-200 hover:bg-red-400">
             <MdDelete/>
           </button>
         </div>
