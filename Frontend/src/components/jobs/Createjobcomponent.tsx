@@ -1,4 +1,4 @@
-import { CREATE_JOB_TITLE, JOB_LABEL_DEPARTMENT, JOB_LABEL_DESCRIPTION, JOB_LABEL_HEADCOUNT, JOB_LABEL_LOCATION, JOB_LABEL_REQUIREMENTS, JOB_LABEL_STATUS, JOB_LABEL_TITLE, JOB_STATUS_CLOSED, JOB_STATUS_HOLD, JOB_STATUS_OPEN, JOB_SUCCESS_MESSAGE, RESET_BUTTON, SUBMIT_BUTTON } from "../../constants/constants";
+import { CREATE_JOB_TITLE, JOB_LABEL_DEPARTMENT, JOB_LABEL_DESCRIPTION, JOB_LABEL_HEADCOUNT, JOB_LABEL_LOCATION, JOB_LABEL_REQUIREMENTS, JOB_LABEL_STATUS, JOB_LABEL_TITLE, JOB_STATUS_CLOSED, JOB_STATUS_IN_REVIEW, JOB_STATUS_OPEN, JOB_SUCCESS_MESSAGE, RESET_BUTTON, SUBMIT_BUTTON } from "../../constants/constants";
 import type { Jobs } from "../../types/JobType";
 
 interface CreateJobProps {
@@ -23,10 +23,10 @@ const CreateJobcomponent = ({
   onSubmit,
 }: CreateJobProps) => {
   return (
-    <div className="min-h-screen p-8 bg-gray-50">
+    <div className="flex items-center min-h-screen  p-8 bg-gray-50">
       <form
         onSubmit={onSubmit}
-        className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-4"
+        className="w-full mx-auto p-6 bg-white shadow-md rounded-lg space-y-4"
       >
         <h2 className="text-xl font-semibold">{CREATE_JOB_TITLE}</h2>
 
@@ -97,7 +97,7 @@ const CreateJobcomponent = ({
             >
               <option value="OPEN">{JOB_STATUS_OPEN}</option>
               <option value="CLOSED">{JOB_STATUS_CLOSED}</option>
-              <option value="HOLD">{JOB_STATUS_HOLD}</option>
+              <option value="IN_REVIEW">{JOB_STATUS_IN_REVIEW}</option>
             </select>
           </div>
           <div className="flex flex-col">

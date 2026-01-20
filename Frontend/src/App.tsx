@@ -1,15 +1,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
-import JobDashboardContainer from "./containers/JobDashboardContainer"
 import CreateJobContainer from "./containers/CreateJobContainer"
+import JobsLayout from "./layouts/JobsLayout"
+import JobDashboardContainer from "./containers/JobDashboardContainer"
 
 function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
+    <Routes>
+      <Route element={<JobsLayout/>}>
         <Route path="/" element={<JobDashboardContainer/>}/>
         <Route path="/newJob" element={<CreateJobContainer/>}/>
-      </Routes>
+      </Route>
+    </Routes>
     </BrowserRouter>
   )
 }
