@@ -52,7 +52,6 @@ export const getAllJobs = async() : Promise<AllJobResponse>=>{
 export const getJobStatusCounts = async() : Promise<JobCountResponse> =>{
   try{
     const response = await axios.get(`${baseUrl}/getJobCounts`);
-    console.log(response)
     return response.data.data
   }
   catch(error){
