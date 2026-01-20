@@ -1,5 +1,5 @@
 import axios from "axios";
-import type {AllJobResponse, JobErrorResponse, Jobs } from "../types/JobType";
+import type {AllJobResponse, JobCountResponse, JobErrorResponse, Jobs } from "../types/JobType";
 
 const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -46,5 +46,29 @@ export const getAllJobs = async() : Promise<AllJobResponse>=>{
     throw new Error(errorMessage || "Error Occured");
    }
    throw new Error("Error fetching Jobs")
+  }
+}
+
+export const getJobStatusCounts = async() : Promise<JobCountResponse> =>{
+  try{
+    const response = await axios.get(`${baseUrl}/getJobCounts`);
+    console.log(response)
+    return response.data.data
+  }
+  catch(error){
+    if (axios.isAxiosError(error) && error.response) {
+      const status = error.response.status;
+      const data = error.response.data as JobErrorResponse;
+      if (status === 400) {
+        throw new Error("Validation Error");
+      }
+
+      const errorMessage = data.details
+        ? `${data.message} : ${data.details}`
+        : data.message;
+
+      throw new Error(errorMessage || "Error Occured");
+    }
+    throw new Error("Error fetching Jobs");
   }
 }

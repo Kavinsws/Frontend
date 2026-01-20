@@ -1,4 +1,4 @@
-import type { alljob, JobMetrics, paginationData } from "@/types/JobType";
+import type { alljob, JobCounts, paginationData } from "@/types/JobType";
 import type React from "react";
 import JobCardComponent from "./JobCardComponent";
 import {
@@ -24,7 +24,7 @@ interface JobDashboardProps {
   viewMode: "grid" | "list";
   onviewchange: (mode: "grid" | "list") => void;
   onJobCreateClick:()=>void;
-  jobMetrics: JobMetrics[];
+  jobMetrics: JobCounts[];
 }
 
 const JobDashboardComponent: React.FC<JobDashboardProps> = ({
