@@ -163,7 +163,7 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
             </button>
             <button
               onClick={onPaginationNext}
-              disabled={pagination.currentPage === pagination?.totalPages}
+              disabled={pagination.currentPage === pagination.totalPages}
               className="px-2 py-1 border rounded shadow-lg text-xs bg-gray-50 font-medium text-gray-400 disabled:opacity-50"
             >
               {NEXT_BUTTON}

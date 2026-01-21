@@ -21,7 +21,7 @@ const JobDashboardContainer: React.FC = () => {
   const [jobs, setJobs] = useState<alljob[]>([]);
   const [loading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<"grid" | "list">("list");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [metrics, setMetrics] = useState<JobCounts[]>([]);
   const [paginationData,setPaginationData] = useState<paginationData>(fallbackPagination);
   const [selectedJob,setSelectedJob] = useState<alljob | null>(null)
