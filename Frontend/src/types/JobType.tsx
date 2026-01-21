@@ -65,7 +65,7 @@ export interface JobCountResponse{
   inReviewJobs:number,  
 }
 
-export interface JobUpdateResponse{
+export type JobUpdateResponse={
   id:string,
   message:string,
 }

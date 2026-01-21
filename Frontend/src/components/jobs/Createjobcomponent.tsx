@@ -22,7 +22,13 @@ import {
 import type { Jobs } from "../../types/JobType";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select";
 interface CreateJobProps {
   loading: boolean;
   success: boolean;
@@ -59,10 +65,16 @@ const CreateJobcomponent = ({
       <div className="flex flex-row justify-between items-center">
         <p className="text-sm text-gray-500 ">{CREATE_JOB_DESCRIPTION}</p>
         <div className="flex flex-row gap-2">
-          <button onClick={navigatePrev} className="bg-white text-sm rounded-md shadow-lg p-3">
+          <button
+            onClick={navigatePrev}
+            className="bg-white text-sm rounded-md shadow-lg p-3"
+          >
             <FaArrowLeft />
           </button>
-          <button onClick={navigateNext} className="bg-white text-sm rounded-md shadow-lg p-3">
+          <button
+            onClick={navigateNext}
+            className="bg-white text-sm rounded-md shadow-lg p-3"
+          >
             <FaArrowRight />
           </button>
         </div>
@@ -165,16 +177,30 @@ const CreateJobcomponent = ({
               <label className="text-sm font-medium mb-1 text-gray-600">
                 {JOB_LABEL_STATUS}
               </label>
-              <select
-                name="status"
+              <Select
                 value={jobs.status}
-                onChange={onChange}
-                className="p-2 border border-gray-300 rounded-lg focus:ring-2 shadow-sm"
+                onValueChange={(value) =>
+                  onChange({
+                    target: {
+                      name: "status",
+                      value,
+                    },
+                  } as React.ChangeEvent<HTMLSelectElement>)
+                }
+                
               >
-                <option value="OPEN">{JOB_STATUS_OPEN}</option>
-                <option value="CLOSED">{JOB_STATUS_CLOSED}</option>
-                <option value="IN_REVIEW">{JOB_STATUS_IN_REVIEW}</option>
-              </select>
+                <SelectTrigger className="p-2 border w-full border-gray-300 rounded-lg focus:ring-2 shadow-md">
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+
+                <SelectContent side="bottom" sideOffset={1} position="popper">
+                  <SelectItem value="OPEN">{JOB_STATUS_OPEN}</SelectItem>
+                  <SelectItem value="CLOSED">{JOB_STATUS_CLOSED}</SelectItem>
+                  <SelectItem value="IN_REVIEW">
+                    {JOB_STATUS_IN_REVIEW}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex flex-col">
               <label className="text-sm font-medium mb-1 text-gray-600">
