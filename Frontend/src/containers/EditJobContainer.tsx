@@ -14,6 +14,10 @@ const EditJobContainer: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  const pagination = {
+    page:1,
+    limit:3
+  }
   useEffect(() => {
     const fetchJob = async () => {
       setIsLoading(true);
@@ -22,7 +26,7 @@ const EditJobContainer: React.FC = () => {
           const job = location.state as alljob;
           setFormData(job);
         } else {
-          const jobsData = await getAllJobs();
+          const jobsData = await getAllJobs(pagination);
           const job = jobsData.data.find((j) => j.id === id);
           if (job) setFormData(job);
           else setError("Job not found");

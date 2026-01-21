@@ -1,5 +1,5 @@
 import axios from "axios";
-import type {alljob, AllJobResponse, JobCountResponse, JobErrorResponse, Jobs, JobUpdateResponse } from "../types/JobType";
+import type {alljob, AllJobResponse, JobCountResponse, JobErrorResponse, Jobs, JobUpdateResponse, paginationParams } from "../types/JobType";
 
 const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -29,10 +29,10 @@ export const createJob = async (job: Jobs) => {
   }
 };
 
-export const getAllJobs = async(page=1,limit=3) : Promise<AllJobResponse>=>{
+export const getAllJobs = async(pagination:paginationParams) : Promise<AllJobResponse>=>{
   try{
     const response = await axios.get(`${baseUrl}/getJobs`, {
-      params: { page, limit },
+      params: { page:pagination.page,limit:pagination.limit },
     });
     return response.data
   }catch(error){

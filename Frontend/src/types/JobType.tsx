@@ -69,3 +69,8 @@ export type JobUpdateResponse={
   id:string,
   message:string,
 }
+
+export type paginationParams={
+  page:number,
+  limit:number
+}

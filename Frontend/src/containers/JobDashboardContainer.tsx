@@ -27,7 +27,7 @@ const JobDashboardContainer: React.FC = () => {
     try{
       setIsLoading(true);
       await deleteJob(id);
-      const mockData = await getAllJobs(page,limit);
+      const mockData = await getAllJobs(pagination);
       setJobs(mockData.data);
       setPaginationData(mockData.pagination);
     }
@@ -64,11 +64,15 @@ const JobDashboardContainer: React.FC = () => {
     { id: "inReview", status: "In Review", count: 0, icon: FaRegClock },
     { id: "total", status: "Total", count: 0, icon: LuCalendarClock },
   ];
+  const pagination ={
+    page:page,
+    limit:limit
+  }
   useEffect(() => {
     const fetchAllJobs = async () => {
       try {
         setIsLoading(true);
-        const mockData = await getAllJobs(page,limit);
+        const mockData = await getAllJobs(pagination);
 
         const response = await getJobStatusCounts();
 
