@@ -3,6 +3,10 @@ import JobDashboardComponent from "@/components/jobs/JobDashboardComponent";
 import type { alljob, JobCounts, paginationData } from "@/types/JobType";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BsSuitcaseLg } from "react-icons/bs";
+import { FaRegClock } from "react-icons/fa";
+import { FiCheckCircle } from "react-icons/fi";
+import { LuCalendarClock } from "react-icons/lu";
 
 const JobDashboardContainer: React.FC = () => {
   const navigate = useNavigate();
@@ -15,6 +19,7 @@ const JobDashboardContainer: React.FC = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("list");
   const [metrics, setMetrics] = useState<JobCounts[]>([]);
   const [paginationData,setPaginationData] = useState<paginationData>();
+  const [selectedJob,setSelectedJob] = useState<alljob | null>(null)
 
   const handleDelete = async (id : string) =>{
     try{
@@ -31,6 +36,21 @@ const JobDashboardContainer: React.FC = () => {
       setIsLoading(false);
     }
   }
+  const handleNavigatePrev = () => {
+    navigate(-1);
+  };
+  const handleNavigateNext = () => {
+    navigate(1);
+  };
+  const handleJobCardClick = (job  : alljob)=>{
+    setSelectedJob(job)
+  }
+  const fallbackMetrics = [
+    { id: "open", status: "Open", count: 0, icon: BsSuitcaseLg },
+    { id: "closed", status: "Closed", count: 0, icon: FiCheckCircle },
+    { id: "inReview", status: "In Review", count: 0, icon: FaRegClock },
+    { id: "total", status: "Total", count: 0, icon: LuCalendarClock },
+  ];
   useEffect(() => {
     const fetchAllJobs = async () => {
       try {
@@ -40,16 +60,36 @@ const JobDashboardContainer: React.FC = () => {
         const response = await getJobStatusCounts();
 
         const jobCounts = [
-          { id: "open", status: "Open", count: response.openJobs },
-          { id: "closed", status: "Closed", count: response.closedJobs },
-          { id: "inReview", status: "In Review", count: response.inReviewJobs },
-          { id: "total", status: "Total", count: response.totalJobs },
+          {
+            id: "open",
+            status: "Open",
+            count: response.openJobs,
+            icon: BsSuitcaseLg,
+          },
+          {
+            id: "closed",
+            status: "Closed",
+            count: response.closedJobs,
+            icon: FiCheckCircle,
+          },
+          {
+            id: "inReview",
+            status: "In Review",
+            count: response.inReviewJobs,
+            icon: FaRegClock,
+          },
+          {
+            id: "total",
+            status: "Total",
+            count: response.totalJobs,
+            icon: LuCalendarClock,
+          },
         ];
         setMetrics(jobCounts);
         setJobs(mockData.data);
         setPaginationData(mockData.pagination)
       } catch (error) {
-        setError(error as string);
+        setError("An unknown error occurred ,Cannot connect to the server!!");
       } finally {
         setIsLoading(false);
       }
@@ -65,8 +105,12 @@ const JobDashboardContainer: React.FC = () => {
       pagination={paginationData}
       loading={loading}
       viewMode={viewMode}
-      jobMetrics={metrics}
+      jobMetrics={metrics.length>0?metrics:fallbackMetrics}
       onDelete={handleDelete}
+      navigateNext={handleNavigateNext}
+      navigatePrev={handleNavigatePrev}
+      selectedJob={selectedJob}
+      onJobCardClick={handleJobCardClick}
     />
   );
 };

@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Jobs } from "../types/JobType";
 import CreateJobcomponent from "../components/jobs/Createjobcomponent";
 import { createJob } from "../apis/JobApi";
+import { useNavigate } from "react-router-dom";
 
 const initialform: Jobs = {
   title: "",
@@ -19,6 +20,16 @@ const CreateJobContainer: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+  const handleNavigateAllJob = () =>{
+    navigate("/");
+  }
+  const handleNavigatePrev=()=>{
+    navigate(-1)
+  }
+  const handleNavigateNext=()=>{
+    navigate(1)
+  }
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -49,6 +60,14 @@ const CreateJobContainer: React.FC = () => {
       setIsLoading(false);
     }
   };
+  
+  const isFormValid =
+    formData.title.trim() !== "" &&
+    formData.department.trim() !== "" &&
+    formData.location.trim() !== "" &&
+    formData.description.trim() !== "" &&
+    formData.requirements.trim() !== "" &&
+    formData.headcount > 0;
 
   return (
     <CreateJobcomponent
@@ -58,6 +77,10 @@ const CreateJobContainer: React.FC = () => {
       success={success}
       onChange={handleChange}
       onSubmit={handleSubmit}
+      onNavigate={handleNavigateAllJob}
+      isFormValid={!isFormValid}
+      navigatePrev={handleNavigatePrev}
+      navigateNext={handleNavigateNext}
     />
   );
 };

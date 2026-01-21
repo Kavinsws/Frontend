@@ -1,14 +1,27 @@
 import type { alljob, JobCounts, paginationData } from "@/types/JobType";
 import type React from "react";
 import JobCardComponent from "./JobCardComponent";
+import { Spinner } from "../ui/spinner";
+import { CiGrid41 } from "react-icons/ci";
+import { FaList } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa6";
+import { FaArrowRight } from "react-icons/fa";
+import { FaChevronRight } from "react-icons/fa"; 
 import {
+  ALL_JOBS,
+  EDIT,
   GRID_BUTTON,
+  HOME,
   JOB_CARDS_TITLE,
   JOB_DASHBOARD_DESCRP,
   JOB_DASHBOARD_TITLE,
+  JOBS,
   LIST_BUTTON,
+  LOADING,
   NEW_JOB_BUTTON,
   NEXT_BUTTON,
+  OF,
+  PAGE,
   PREV_BUTTON,
   TIP_DESCRIPTION,
   VIEW_MODE_LABEL,
@@ -17,15 +30,19 @@ import JobMetricsComponent from "./JobMetricsComponent";
 import { IoMdAdd } from "react-icons/io";
 
 interface JobDashboardProps {
-  jobs: alljob[];
-  pagination?:paginationData,
   loading: boolean;
+  jobs: alljob[];
+  jobMetrics: JobCounts[];
+  pagination?: paginationData;
+  selectedJob:alljob | null,
   error: string | null;
   viewMode: "grid" | "list";
   onviewchange: (mode: "grid" | "list") => void;
-  onJobCreateClick:()=>void;
-  onDelete: (id:string)=>void;
-  jobMetrics: JobCounts[];
+  onJobCreateClick: () => void;
+  onDelete: (id: string) => void;
+  navigateNext:()=>void;
+  navigatePrev:()=>void;
+  onJobCardClick?: (job : alljob) =>void;
 }
 
 const JobDashboardComponent: React.FC<JobDashboardProps> = ({
@@ -37,21 +54,26 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
   jobMetrics,
   onviewchange,
   onJobCreateClick,
-  onDelete
+  onDelete,
+  navigateNext,
+  navigatePrev,
+  onJobCardClick,
+  selectedJob,
 }) => {
   return (
-    <div className="min-h-screen bg-gray-100 space-y-5 p-6">
-      <div className="flex flex-col space-y-3">
-        <h1 className="text-3xl text-gray-900 font-semibold">
+    <div className="min-h-screen space-y-5 px-10 py-6">
+      <div className="flex flex-col space-y-1">
+        <h1 className="text-2xl text-gray-900 font-semibold">
           {JOB_DASHBOARD_TITLE}
         </h1>
         <div className="flex justify-between">
           <div>
-            <p className="text-gray-400 text-md">{JOB_DASHBOARD_DESCRP}</p>
+            <p className="text-gray-500 text-sm">{JOB_DASHBOARD_DESCRP}</p>
           </div>
+
           <button
             onClick={onJobCreateClick}
-            className="px-4 p-2 bg-gray-900 hover:bg-gray-700 text-md text-white rounded-md"
+            className="px-3 p-1.5 bg-gray-900 hover:bg-gray-700 text-md text-white rounded-md"
           >
             <span className="flex flex-row items-center justify-between gap-2">
               <IoMdAdd />
@@ -59,35 +81,67 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
             </span>
           </button>
         </div>
-      </div>
-      {!loading && !error && (
-        <div className="grid grid-cols-4 gap-4">
-          {jobMetrics.map((metric) => (
-            <JobMetricsComponent key={metric.id} metrics={metric}/>
-          ))}
+        <div className="flex flex-row gap-2">
+          <button
+            onClick={navigatePrev}
+            className="bg-white text-sm rounded-md shadow-sm px-2"
+          >
+            <FaArrowLeft />
+          </button>
+          <button
+            onClick={navigateNext}
+            className="bg-white text-sm rounded-md shadow p-2"
+          >
+            <FaArrowRight />
+          </button>
+          <div className="flex flex-row gap-3 items-center">
+            <button className="text-sm">{HOME}</button>
+            <FaChevronRight size={10} />
+            <button className="text-sm">{JOBS}</button>
+            <FaChevronRight size={10} />
+            <button className="text-sm">
+              {selectedJob ? `${EDIT} ${selectedJob.title}` : "All Jobs"}
+            </button>
+          </div>
         </div>
-      )}
-      <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-300 flex justify-between">
+      </div>
+
+      <div className="grid grid-cols-4 gap-4">
+        {jobMetrics.map((metric) => (
+          <JobMetricsComponent key={metric.id} metrics={metric} icon={metric.icon} />
+        ))}
+      </div>
+      <div className="bg-white p-3 rounded-lg shadow-md  flex justify-between">
         <div className="flex gap-2 items-center">
           <span className="text-gray-500 text-sm font-medium ">
             {VIEW_MODE_LABEL}
           </span>
           <button
             onClick={() => onviewchange("grid")}
-            className={`flex items-center rounded text-sm px-3 py-1 text-white font-medium transition-colors bg-gray-900 `}
+            className={`flex items-center gap-1 rounded-md text-sm px-3 py-2 font-normal transition-colors ${
+              viewMode === "grid"
+                ? "bg-gray-900 text-white"
+                : "bg-white text-gray-800 shadow-md"
+            } `}
           >
+            <CiGrid41 strokeWidth={1} />
             {GRID_BUTTON}
           </button>
           <button
             onClick={() => onviewchange("list")}
-            className={`flex items-center rounded text-sm px-3 text-white py-1 font-medium transition-colors bg-gray-900 `}
+            className={`flex items-center gap-1 rounded-md text-sm px-3 py-2 font-normal transition-colors ${
+              viewMode === "list"
+                ? "bg-gray-900 text-white"
+                : "bg-white text-gray-800 shadow-md"
+            } `}
           >
+            <FaList strokeWidth={1} />
             {LIST_BUTTON}
           </button>
         </div>
         <div className="flex items-center flex-row gap-2">
           <span className="text-sm">
-            Page {pagination?.currentPage || 1} of {pagination?.totalPages || 1}
+            {PAGE} {pagination?.currentPage || 1} {OF} {pagination?.totalPages || 1}
           </span>
           <div className="flex items-center gap-2 pr-2">
             <button className="px-2 py-1 border rounded shadow-lg text-xs bg-gray-50 hover:bg-gray-300 font-medium text-gray-400 hover:text-gray-900">
@@ -103,15 +157,31 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
         <h2 className="text-xl font-bold text-gray-900 mb-1">
           {JOB_CARDS_TITLE}
         </h2>
-        <p className="text-gray-500 text-sm ">{JOB_DASHBOARD_DESCRP}</p>
-        {!loading && !error && (
+        <p className="text-gray-500 text-sm mb-2">{JOB_DASHBOARD_DESCRP}</p>
+        {loading ? (
+          <div className="flex flex-row justify-left w-full border bg-gray-50 gap-2 items-center p-2 rounded-lg">
+            <Spinner />
+            <span className="text-sm text-gray-600">{LOADING}</span>
+          </div>
+        ) : error ? (
+          <div className="text-red-500 flex items-center justify-center">
+            {error}
+          </div>
+        ) : (
           <div
             className={
-              viewMode === "grid" ? "grid grid-cols-3 gap-4" : "space-y-6"
+              viewMode === "grid" ? "grid grid-cols-3 gap-4" : "space-y-3"
             }
           >
             {jobs.map((job) => (
-              <JobCardComponent key={job.id} job={job} viewmode={viewMode} onDelete={onDelete}/>
+              <JobCardComponent
+                key={job.id}
+                job={job}
+                viewmode={viewMode}
+                onDelete={onDelete}
+                onJobCardClick={onJobCardClick}
+                selected={selectedJob?.id === job.id}
+              />
             ))}
           </div>
         )}

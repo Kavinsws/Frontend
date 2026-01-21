@@ -16,8 +16,8 @@ interface SideBarProps {
 
 const SideBarComponent = ({ items, activeId, onItemClick }: SideBarProps) => {
   return (
-    <aside className="w-72 h-screen bg-white border-gray-300">
-      <div className="px-6 py-4 border border-gray-300 flex flex-row gap-2 items-center">
+    <aside className="w-72 h-screen bg-white border border-gray-300">
+      <div className="px-6 py-4 border-b border-gray-300 flex flex-row gap-2 items-center">
         <div className="bg-gray-200 p-2 rounded-lg">
           <CiGrid42 className="size-6 stroke-1" />
         </div>
@@ -29,7 +29,7 @@ const SideBarComponent = ({ items, activeId, onItemClick }: SideBarProps) => {
           <span className="text-sm">{SIDEBAR_DESCRIPTION}</span>
         </div>
       </div>
-      <ul className="space-y-2 p-4">
+      <ul className="space-y-2 p-4 ">
         {items.map((item) => {
           const Icon = item.icon
           return (

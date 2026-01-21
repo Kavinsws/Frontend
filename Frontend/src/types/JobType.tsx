@@ -54,6 +54,7 @@ export interface JobCounts{
   id:string,
   status:string,
   count:number
+  icon:React.ElementType
 }
 
 export interface JobCountResponse{

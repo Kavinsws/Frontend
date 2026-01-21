@@ -1,16 +1,16 @@
-export const SUBMIT_BUTTON : string ="Submit"
+export const SUBMIT_BUTTON : string ="Publish Job"
 
-export const RESET_BUTTON : string = "Reset"
+export const RESET_BUTTON : string = "New blank job"
 
 export const GRID_BUTTON : string = "Grid"
 
-export const LIST_BUTTON : string = "list"
+export const LIST_BUTTON : string = "List"
 
 export const PREV_BUTTON : string = "Prev"
 
 export const NEXT_BUTTON : string = "Next"
 
-export const NEW_JOB_BUTTON : string = "NewJob"
+export const NEW_JOB_BUTTON : string = "New Job"
 
 export const TIP_DESCRIPTION: string =
   "Tip: Add a strong, bulleted requirements list. We surface those in screening.";
@@ -57,3 +57,20 @@ export const JOB_STATUS_CLOSED:string = "CLOSED"
 export const SIDEBAR_TITLE:string = "Atlas ATS"
 
 export const SIDEBAR_DESCRIPTION: string = "Hiring + Screening Console";
+
+export const LOADING:string = "Loading Jobs"
+
+export const HOME:string = "Home"
+
+export const JOBS:string = "Jobs"
+
+export const ALL_JOBS = "All Jobs"
+
+export const CREATE_JOB_DESCRIPTION: string =
+  "Keep job specs clear; screening uses them to score resumes.";
+
+export const EDIT:string = "Edit "
+
+export const PAGE:string ="Page"
+
+export const OF:string="of"
