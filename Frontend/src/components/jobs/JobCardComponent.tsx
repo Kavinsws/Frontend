@@ -22,15 +22,15 @@ interface JobCardProps {
   job: alljob;
   viewmode: "grid" | "list";
   onDelete: (id:string)=> void;
-  onJobCardClick?:(job : alljob)=>void
-  onHandleUpdate?:(job : alljob)=>void
+  onJobCardClick:(job : alljob)=>void
+  onHandleUpdate:(job : alljob)=>void
 }
 
 const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode,onDelete,onJobCardClick,selected,onHandleUpdate }) => {
   if (viewmode === "grid") {
     return (
       <div
-        onClick={() => onJobCardClick && onJobCardClick(job)}
+        onClick={() => onJobCardClick(job)}
         className={`relative group w-full border border-gray-300 text-sm cursor-pointer rounded-lg p-3
     ${
       selected
@@ -52,7 +52,7 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode,onDelete,onJob
               </span>
             </div>
             <div className=" flex-row space-x-2 hidden group-hover:block">
-              <button onClick={()=> onHandleUpdate && onHandleUpdate(job)} className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400">
+              <button onClick={()=> onHandleUpdate(job)} className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400">
                 <MdEdit />
               </button>
               <button
@@ -89,7 +89,7 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode,onDelete,onJob
 
   return (
     <div
-      onClick={() => onJobCardClick && onJobCardClick(job)}
+      onClick={() =>onJobCardClick(job)}
       className={`relative text-sm group flex flex-col px-4 py-2 cursor-pointer rounded-lg border
     ${
       selected
@@ -112,7 +112,7 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode,onDelete,onJob
           </div>
           <div className=" flex-row space-x-2 hidden group-hover:block ">
             <button
-              onClick={() => onHandleUpdate && onHandleUpdate(job)}
+              onClick={() => onHandleUpdate(job)}
               className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400"
             >
               <MdEdit />
