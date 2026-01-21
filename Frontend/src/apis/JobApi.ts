@@ -1,5 +1,5 @@
 import axios from "axios";
-import type {AllJobResponse, JobCountResponse, JobErrorResponse, Jobs } from "../types/JobType";
+import type {alljob, AllJobResponse, JobCountResponse, JobErrorResponse, Jobs, JobUpdateResponse } from "../types/JobType";
 
 const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -29,13 +29,15 @@ export const createJob = async (job: Jobs) => {
   }
 };
 
-export const getAllJobs = async() : Promise<AllJobResponse>=>{
+export const getAllJobs = async(page=1,limit=3) : Promise<AllJobResponse>=>{
   try{
-    const response = await axios.get(`${baseUrl}/getJobs`);
+    const response = await axios.get(`${baseUrl}/getJobs`, {
+      params: { page, limit },
+    });
     return response.data
   }catch(error){
    if(axios.isAxiosError(error) && error.response){
-    const status = error.response.status;
+    const status = error.response.status; 
     const data = error.response.data as JobErrorResponse;
     if(status === 400){
       throw new Error("Validation Error")
@@ -85,5 +87,22 @@ export const deleteJob = async(id:string):Promise<void> =>{
       }
       throw new Error("Error while deleting job");
     }
+  }
+}
+
+export const updateJob = async(id:string,job: alljob) : Promise<JobUpdateResponse>=>{
+  try{
+    console.log(job)
+    const response = await axios.put(`${baseUrl}/updateJob/${id}`,job)
+    return response.data
+  }
+  catch(error){
+    if(axios.isAxiosError(error)){
+      const status = error.response?.status;
+      if(status == 404){
+        throw new Error("Job not found")
+      }
+    }
+    throw new Error("Failed to update the job");
   }
 }

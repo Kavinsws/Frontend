@@ -20,12 +20,14 @@ const JobDashboardContainer: React.FC = () => {
   const [metrics, setMetrics] = useState<JobCounts[]>([]);
   const [paginationData,setPaginationData] = useState<paginationData>();
   const [selectedJob,setSelectedJob] = useState<alljob | null>(null)
+  const [page,setPage] = useState(1);
+  const limit =3;
 
   const handleDelete = async (id : string) =>{
     try{
       setIsLoading(true);
       await deleteJob(id);
-      const mockData = await getAllJobs();
+      const mockData = await getAllJobs(page,limit);
       setJobs(mockData.data);
       setPaginationData(mockData.pagination);
     }
@@ -45,6 +47,17 @@ const JobDashboardContainer: React.FC = () => {
   const handleJobCardClick = (job  : alljob)=>{
     setSelectedJob(job)
   }
+  const handleUpdateNavigation = (job : alljob)=>{
+    navigate(`/editJob/${job.id}`, { state: job });
+  }
+  const handlePaginationPrev = () => {
+    setPage((prev) => Math.max(1, prev - 1));
+  };
+  const handlePaginationNext = () => {
+    setPage((prev) =>
+      paginationData && prev < paginationData.totalPages ? prev + 1 : prev
+    );
+  };
   const fallbackMetrics = [
     { id: "open", status: "Open", count: 0, icon: BsSuitcaseLg },
     { id: "closed", status: "Closed", count: 0, icon: FiCheckCircle },
@@ -55,7 +68,7 @@ const JobDashboardContainer: React.FC = () => {
     const fetchAllJobs = async () => {
       try {
         setIsLoading(true);
-        const mockData = await getAllJobs();
+        const mockData = await getAllJobs(page,limit);
 
         const response = await getJobStatusCounts();
 
@@ -95,7 +108,7 @@ const JobDashboardContainer: React.FC = () => {
       }
     };
     fetchAllJobs();
-  }, []);
+  }, [page]);
   return (
     <JobDashboardComponent
       onviewchange={setViewMode}
@@ -111,6 +124,9 @@ const JobDashboardContainer: React.FC = () => {
       navigatePrev={handleNavigatePrev}
       selectedJob={selectedJob}
       onJobCardClick={handleJobCardClick}
+      handleUpdateNavigation={handleUpdateNavigation}
+      onPaginationNext={handlePaginationNext}
+      onPaginationPrev={handlePaginationPrev}
     />
   );
 };

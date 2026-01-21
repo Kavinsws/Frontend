@@ -64,3 +64,8 @@ export interface JobCountResponse{
   closedJobs:number,
   inReviewJobs:number,  
 }
+
+export interface JobUpdateResponse{
+  id:string,
+  message:string,
+}

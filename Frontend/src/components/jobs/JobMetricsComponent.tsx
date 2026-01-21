@@ -1,4 +1,3 @@
-import { JOB_METRICS_LOGO } from "@/constants/constants";
 import type {  JobCounts } from "@/types/JobType";
 
 interface JobMetricsProps {

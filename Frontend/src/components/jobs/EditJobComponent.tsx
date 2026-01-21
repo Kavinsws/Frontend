@@ -1,0 +1,260 @@
+import {
+  CREATE_JOB_DESCRIPTION,
+  HOME,
+  JOB_LABEL_DEPARTMENT,
+  JOB_LABEL_DESCRIPTION,
+  JOB_LABEL_HEADCOUNT,
+  JOB_LABEL_LOCATION,
+  JOB_LABEL_REQUIREMENTS,
+  JOB_LABEL_STATUS,
+  JOB_LABEL_TITLE,
+  JOB_STATUS_CLOSED,
+  JOB_STATUS_IN_REVIEW,
+  JOB_STATUS_OPEN,
+  JOBS,
+  EDIT,
+  EDIT_JOB,
+  UPDATE_SUCCESS,
+  RESET_BUTTON,
+  UPDATE_BUTTON,
+} from "@/constants/constants";
+import type { Jobs } from "@/types/JobType";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { FaChevronRight, FaArrowLeft, FaArrowRight } from "react-icons/fa";
+
+interface EditJobProps {
+  loading: boolean;
+  success: boolean;
+  isFormValid: boolean;
+  jobs: Jobs;
+  error: string | null;
+  onChange: (
+    e: React.ChangeEvent<
+      HTMLSelectElement | HTMLTextAreaElement | HTMLInputElement
+    >
+  ) => void;
+  onSubmit: (e: React.FormEvent) => void;
+  onNavigate: () => void;
+  navigatePrev: () => void;
+  navigateNext: () => void;
+  onNavigateJobs:()=>void
+}
+
+const EditJobComponent = ({
+  loading,
+  error,
+  isFormValid,
+  jobs,
+  success,
+  onChange,
+  onSubmit,
+  onNavigate,
+  navigatePrev,
+  navigateNext,
+  onNavigateJobs
+}: EditJobProps) => {
+  return (
+    <div className="flex flex-col items-left space-y-2 min-h-screen px-10 py-6 bg-white">
+      <div className="flex flex-row justify-between items-center">
+        <h2 className="text-2xl font-semibold">{EDIT_JOB}</h2>
+        <div className="flex flex-row gap-2">
+          <button
+            onClick={navigatePrev}
+            className="bg-white text-sm rounded-md shadow-lg p-3"
+          >
+            <FaArrowLeft />
+          </button>
+          <button
+            onClick={navigateNext}
+            className="bg-white text-sm rounded-md shadow-lg p-3"
+          >
+            <FaArrowRight />
+          </button>
+        </div>
+      </div>
+      <p className="text-sm text-gray-500">{CREATE_JOB_DESCRIPTION}</p>
+      <div className="flex flex-row gap-2 mb-4">
+        <div className="flex flex-row gap-3 items-center text-gray-500">
+          <button className="text-sm">{HOME}</button>
+          <FaChevronRight size={10} />
+          <button
+            onClick={onNavigateJobs}
+            className="text-sm hover:cursor-pointer hover:text-gray-950"
+          >
+            {JOBS}
+          </button>
+          <FaChevronRight size={10} />
+          <button className="text-sm text-black">
+            {EDIT} {jobs.title}
+          </button>
+        </div>
+      </div>
+
+      <div className="w-full shadow-md p-6 bg-white rounded-lg border">
+        <form
+          onSubmit={onSubmit}
+          className="mx-auto p-6 bg-white shadow-md border rounded-lg space-y-3"
+        >
+          {error && (
+            <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded">
+              {UPDATE_SUCCESS}
+            </div>
+          )}
+          <div className="flex flex-col space-y-1">
+            <h2 className="text-xl font-semibold">{EDIT_JOB}</h2>
+            <p className="text-sm text-gray-500">{CREATE_JOB_DESCRIPTION}</p>
+            <div className="flex flex-row gap-2 mb-4">
+              <div className="flex flex-row gap-3 items-center text-gray-500">
+                <button className="text-sm">{HOME}</button>
+                <FaChevronRight size={10} />
+                <button
+                  onClick={onNavigateJobs}
+                  className="text-sm hover:cursor-pointer hover:text-gray-950"
+                >
+                  {JOBS}
+                </button>
+                <FaChevronRight size={10} />
+                <button className="text-sm text-black">
+                  {EDIT} {jobs.title}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-col">
+              <label className="text-sm font-medium mb-1 text-gray-600">
+                {JOB_LABEL_TITLE}
+              </label>
+              <Input
+                name="title"
+                value={jobs.title}
+                onChange={onChange}
+                placeholder="Frontend Engineer"
+                className="p-2 border border-gray-300 rounded-lg focus:ring-2 shadow-sm"
+                required
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm font-medium mb-1 text-gray-600">
+                {JOB_LABEL_DEPARTMENT}
+              </label>
+              <Input
+                name="department"
+                value={jobs.department}
+                onChange={onChange}
+                placeholder="Engineering"
+                className="p-2 border border-gray-300 rounded-lg focus:ring-2 shadow-sm"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <div className="flex flex-col">
+              <label className="text-sm font-medium mb-1 text-gray-600">
+                {JOB_LABEL_LOCATION}
+              </label>
+              <Input
+                name="location"
+                value={jobs.location}
+                onChange={onChange}
+                placeholder="Remote"
+                className="p-2 border border-gray-300 rounded-lg focus:ring-2 shadow-sm"
+                required
+              />
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm font-medium mb-1 text-gray-600">
+                {JOB_LABEL_STATUS}
+              </label>
+              <select
+                name="status"
+                value={jobs.status}
+                onChange={onChange}
+                className="p-2 border border-gray-300 rounded-lg focus:ring-2 shadow-sm"
+              >
+                <option value="OPEN">{JOB_STATUS_OPEN}</option>
+                <option value="CLOSED">{JOB_STATUS_CLOSED}</option>
+                <option value="IN_REVIEW">{JOB_STATUS_IN_REVIEW}</option>
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <label className="text-sm font-medium mb-1 text-gray-600">
+                {JOB_LABEL_HEADCOUNT}
+              </label>
+              <Input
+                type="number"
+                value={jobs.headcount}
+                onChange={onChange}
+                name="headcount"
+                min={1}
+                placeholder="1"
+                className="p-2 border border-gray-300 rounded-lg focus:ring-2 shadow-sm"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1 text-gray-600">
+              {JOB_LABEL_DESCRIPTION}
+            </label>
+            <Textarea
+              name="description"
+              value={jobs.description}
+              onChange={onChange}
+              placeholder="What success looks like and what they will own"
+              rows={4}
+              className="p-2 border border-gray-300 rounded-lg focus:ring-2 shadow-sm"
+              required
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="text-sm font-medium mb-1 text-gray-600">
+              {JOB_LABEL_REQUIREMENTS}
+            </label>
+            <Textarea
+              name="requirements"
+              value={jobs.requirements}
+              onChange={onChange}
+              placeholder="React, TypeScript, Design Systems, Testing"
+              rows={4}
+              className="p-2 border border-gray-300 rounded-lg focus:ring-2  shadow-sm"
+              required
+            />
+          </div>
+
+          <div className="flex flex-row gap-4 pt-4">
+            <button
+              type="submit"
+              disabled={isFormValid}
+              className={`text-white p-2 rounded-md  disabled:bg-gray-400 text-sm font-semibold px-6 shadow-md ${
+                isFormValid ? "bg-gray-300" : "bg-gray-900 cursor-pointer"
+              }`}
+            >
+              {loading ? "Submitting..." : `${UPDATE_BUTTON}`}
+            </button>
+            <button
+              type="button"
+              onClick={onNavigate}
+              className="text-black p-2 rounded-md border border-gray-300 hover:bg-gray-100 text-sm font-semibold px-6 shadow-md"
+            >
+              {RESET_BUTTON}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default EditJobComponent;
