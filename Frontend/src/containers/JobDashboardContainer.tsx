@@ -13,19 +13,26 @@ const JobDashboardContainer: React.FC = () => {
   const handleNavigate=()=>{
     navigate("/newJob");
   }
+  const fallbackPagination = {
+    currentPage: 1,
+    totalPages: 1,
+    totalResults: 3,
+  };
   const [jobs, setJobs] = useState<alljob[]>([]);
   const [loading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<"grid" | "list">("list");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [metrics, setMetrics] = useState<JobCounts[]>([]);
-  const [paginationData,setPaginationData] = useState<paginationData>();
+  const [paginationData,setPaginationData] = useState<paginationData>(fallbackPagination);
   const [selectedJob,setSelectedJob] = useState<alljob | null>(null)
+  const [page,setPage] = useState(1);
+  const limit =3;
 
   const handleDelete = async (id : string) =>{
     try{
       setIsLoading(true);
       await deleteJob(id);
-      const mockData = await getAllJobs();
+      const mockData = await getAllJobs(pagination);
       setJobs(mockData.data);
       setPaginationData(mockData.pagination);
     }
@@ -45,17 +52,32 @@ const JobDashboardContainer: React.FC = () => {
   const handleJobCardClick = (job  : alljob)=>{
     setSelectedJob(job)
   }
+  const handleUpdateNavigation = (job : alljob)=>{
+    navigate(`/editJob/${job.id}`, { state: job });
+  }
+  const handlePaginationPrev = () => {
+    setPage((prev) => Math.max(1, prev - 1));
+  };
+  const handlePaginationNext = () => {
+    setPage((prev) =>
+      paginationData && prev < paginationData.totalPages ? prev + 1 : prev
+    );
+  };
   const fallbackMetrics = [
     { id: "open", status: "Open", count: 0, icon: BsSuitcaseLg },
     { id: "closed", status: "Closed", count: 0, icon: FiCheckCircle },
     { id: "inReview", status: "In Review", count: 0, icon: FaRegClock },
     { id: "total", status: "Total", count: 0, icon: LuCalendarClock },
   ];
+  const pagination ={
+    page:page,
+    limit:limit
+  }
   useEffect(() => {
     const fetchAllJobs = async () => {
       try {
         setIsLoading(true);
-        const mockData = await getAllJobs();
+        const mockData = await getAllJobs(pagination);
 
         const response = await getJobStatusCounts();
 
@@ -95,7 +117,7 @@ const JobDashboardContainer: React.FC = () => {
       }
     };
     fetchAllJobs();
-  }, []);
+  }, [page]);
   return (
     <JobDashboardComponent
       onviewchange={setViewMode}
@@ -111,6 +133,9 @@ const JobDashboardContainer: React.FC = () => {
       navigatePrev={handleNavigatePrev}
       selectedJob={selectedJob}
       onJobCardClick={handleJobCardClick}
+      handleUpdateNavigation={handleUpdateNavigation}
+      onPaginationNext={handlePaginationNext}
+      onPaginationPrev={handlePaginationPrev}
     />
   );
 };

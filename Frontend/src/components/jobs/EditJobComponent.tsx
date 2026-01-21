@@ -1,7 +1,5 @@
-import { FaArrowLeft, FaArrowRight, FaChevronRight } from "react-icons/fa";
 import {
   CREATE_JOB_DESCRIPTION,
-  CREATE_JOB_TITLE,
   HOME,
   JOB_LABEL_DEPARTMENT,
   JOB_LABEL_DESCRIPTION,
@@ -13,15 +11,17 @@ import {
   JOB_STATUS_CLOSED,
   JOB_STATUS_IN_REVIEW,
   JOB_STATUS_OPEN,
-  JOB_SUCCESS_MESSAGE,
   JOBS,
-  NEW_JOB_BUTTON,
+  EDIT,
+  EDIT_JOB,
+  UPDATE_SUCCESS,
   RESET_BUTTON,
-  SUBMIT_BUTTON,
-} from "../../constants/constants";
-import type { Jobs } from "../../types/JobType";
+  UPDATE_BUTTON,
+} from "@/constants/constants";
+import type { Jobs } from "@/types/JobType";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { FaChevronRight, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import {
   Select,
   SelectTrigger,
@@ -29,7 +29,8 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
-interface CreateJobProps {
+
+interface EditJobProps {
   loading: boolean;
   success: boolean;
   isFormValid: boolean;
@@ -42,11 +43,12 @@ interface CreateJobProps {
   ) => void;
   onSubmit: (e: React.FormEvent) => void;
   onNavigate: () => void;
-  navigatePrev:()=>void;
-  navigateNext:()=>void;
+  navigatePrev: () => void;
+  navigateNext: () => void;
+  onNavigateJobs:()=>void
 }
 
-const CreateJobcomponent = ({
+const EditJobComponent = ({
   loading,
   error,
   isFormValid,
@@ -56,14 +58,13 @@ const CreateJobcomponent = ({
   onSubmit,
   onNavigate,
   navigatePrev,
-  navigateNext
-
-}: CreateJobProps) => {
+  navigateNext,
+  onNavigateJobs
+}: EditJobProps) => {
   return (
-    <div className="flex flex-col items-left space-y-2 min-h-screen  p-8 bg-white">
-      <h2 className="text-2xl font-semibold">{CREATE_JOB_TITLE}</h2>
+    <div className="flex flex-col items-left space-y-2 min-h-screen px-10 py-6 bg-white">
       <div className="flex flex-row justify-between items-center">
-        <p className="text-sm text-gray-500 ">{CREATE_JOB_DESCRIPTION}</p>
+        <h2 className="text-2xl font-semibold">{EDIT_JOB}</h2>
         <div className="flex flex-row gap-2">
           <button
             onClick={navigatePrev}
@@ -79,45 +80,29 @@ const CreateJobcomponent = ({
           </button>
         </div>
       </div>
+      <p className="text-sm text-gray-500">{CREATE_JOB_DESCRIPTION}</p>
       <div className="flex flex-row gap-2 mb-4">
         <div className="flex flex-row gap-3 items-center text-gray-500">
           <button className="text-sm">{HOME}</button>
           <FaChevronRight size={10} />
           <button
-            onClick={onNavigate}
+            onClick={onNavigateJobs}
             className="text-sm hover:cursor-pointer hover:text-gray-950"
           >
             {JOBS}
           </button>
           <FaChevronRight size={10} />
-          <button className="text-sm text-black">{NEW_JOB_BUTTON}</button>
+          <button className="text-sm text-black">
+            {EDIT} {jobs.title}
+          </button>
         </div>
       </div>
 
       <div className="w-full shadow-md p-6 bg-white rounded-lg border">
         <form
           onSubmit={onSubmit}
-          className="mx-auto p-6 bg-white shadow-md border rounded-lg space-y-4"
+          className="mx-auto p-6 bg-white shadow-md border rounded-lg space-y-3"
         >
-          <div className="flex flex-col space-y-2 ">
-            <h2 className="text-lg font-semibold">{CREATE_JOB_TITLE}</h2>
-            <p className="text-sm text-gray-500 ">{CREATE_JOB_DESCRIPTION}</p>
-            <div className="flex flex-row gap-2 mb-4">
-              <div className="flex flex-row gap-3 items-center text-gray-500">
-                <button className="text-sm">{HOME}</button>
-                <FaChevronRight size={10} />
-                <button
-                  onClick={onNavigate}
-                  className="text-sm hover:text-gray-950 hover:cursor-pointer"
-                >
-                  {JOBS}
-                </button>
-                <FaChevronRight size={10} />
-                <button className="text-sm text-black">{NEW_JOB_BUTTON}</button>
-              </div>
-            </div>
-          </div>
-
           {error && (
             <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
               {error}
@@ -126,9 +111,29 @@ const CreateJobcomponent = ({
 
           {success && (
             <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-              {JOB_SUCCESS_MESSAGE}
+              {UPDATE_SUCCESS}
             </div>
           )}
+          <div className="flex flex-col space-y-1">
+            <h2 className="text-xl font-semibold">{EDIT_JOB}</h2>
+            <p className="text-sm text-gray-500">{CREATE_JOB_DESCRIPTION}</p>
+            <div className="flex flex-row gap-2 mb-4">
+              <div className="flex flex-row gap-3 items-center text-gray-500">
+                <button className="text-sm">{HOME}</button>
+                <FaChevronRight size={10} />
+                <button
+                  onClick={onNavigateJobs}
+                  className="text-sm hover:cursor-pointer hover:text-gray-950"
+                >
+                  {JOBS}
+                </button>
+                <FaChevronRight size={10} />
+                <button className="text-sm text-black">
+                  {EDIT} {jobs.title}
+                </button>
+              </div>
+            </div>
+          </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col">
@@ -187,9 +192,8 @@ const CreateJobcomponent = ({
                     },
                   } as React.ChangeEvent<HTMLSelectElement>)
                 }
-                
               >
-                <SelectTrigger className="p-2 border w-full border-gray-300 rounded-lg focus:ring-2 shadow-md">
+                <SelectTrigger className="p-2 border w-full border-gray-300 rounded-lg focus:ring-1 shadow-md">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
 
@@ -257,11 +261,11 @@ const CreateJobcomponent = ({
                 isFormValid ? "bg-gray-300" : "bg-gray-900 cursor-pointer"
               }`}
             >
-              {loading ? "Submitting..." : `${SUBMIT_BUTTON}`}
+              {loading ? "Submitting..." : `${UPDATE_BUTTON}`}
             </button>
             <button
               type="button"
-              onClick={() => window.location.reload()}
+              onClick={onNavigate}
               className="text-black p-2 rounded-md border border-gray-300 hover:bg-gray-100 text-sm font-semibold px-6 shadow-md"
             >
               {RESET_BUTTON}
@@ -273,4 +277,4 @@ const CreateJobcomponent = ({
   );
 };
 
-export default CreateJobcomponent;
+export default EditJobComponent;

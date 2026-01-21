@@ -22,14 +22,15 @@ interface JobCardProps {
   job: alljob;
   viewmode: "grid" | "list";
   onDelete: (id:string)=> void;
-  onJobCardClick?:(job : alljob)=>void
+  onJobCardClick:(job : alljob)=>void
+  onHandleUpdate:(job : alljob)=>void
 }
 
-const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode,onDelete,onJobCardClick,selected }) => {
+const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode,onDelete,onJobCardClick,selected,onHandleUpdate }) => {
   if (viewmode === "grid") {
     return (
       <div
-        onClick={() => onJobCardClick && onJobCardClick(job)}
+        onClick={() => onJobCardClick(job)}
         className={`relative group w-full border border-gray-300 text-sm cursor-pointer rounded-lg p-3
     ${
       selected
@@ -40,7 +41,7 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode,onDelete,onJob
       >
         <div className="flex-1 space-y-0.5">
           <div className="flex justify-between items-center">
-            <div className="flex items-center bg-red-50 gap-3 ">
+            <div className="flex items-center gap-3 ">
               <h3 className="font-bold text-gray-900 text-md">{job.title}</h3>
               <span
                 className={`text-xs px-2 py-0.5 rounded-lg font-medium ${getStatusStyles(
@@ -51,7 +52,7 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode,onDelete,onJob
               </span>
             </div>
             <div className=" flex-row space-x-2 hidden group-hover:block">
-              <button className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400">
+              <button onClick={()=> onHandleUpdate(job)} className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400">
                 <MdEdit />
               </button>
               <button
@@ -88,7 +89,7 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode,onDelete,onJob
 
   return (
     <div
-      onClick={() => onJobCardClick && onJobCardClick(job)}
+      onClick={() =>onJobCardClick(job)}
       className={`relative text-sm group flex flex-col px-4 py-2 cursor-pointer rounded-lg border
     ${
       selected
@@ -110,7 +111,10 @@ const JobCardComponent: React.FC<JobCardProps> = ({ job, viewmode,onDelete,onJob
             </span>
           </div>
           <div className=" flex-row space-x-2 hidden group-hover:block ">
-            <button className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400">
+            <button
+              onClick={() => onHandleUpdate(job)}
+              className="rounded p-1 text-sm bg-gray-200 hover:bg-gray-400"
+            >
               <MdEdit />
             </button>
             <button

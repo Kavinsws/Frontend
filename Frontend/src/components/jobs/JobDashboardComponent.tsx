@@ -8,7 +8,6 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa";
 import { FaChevronRight } from "react-icons/fa"; 
 import {
-  ALL_JOBS,
   EDIT,
   GRID_BUTTON,
   HOME,
@@ -33,16 +32,19 @@ interface JobDashboardProps {
   loading: boolean;
   jobs: alljob[];
   jobMetrics: JobCounts[];
-  pagination?: paginationData;
-  selectedJob:alljob | null,
+  pagination: paginationData;
+  selectedJob: alljob | null;
   error: string | null;
   viewMode: "grid" | "list";
   onviewchange: (mode: "grid" | "list") => void;
   onJobCreateClick: () => void;
   onDelete: (id: string) => void;
-  navigateNext:()=>void;
-  navigatePrev:()=>void;
-  onJobCardClick?: (job : alljob) =>void;
+  navigateNext: () => void;
+  navigatePrev: () => void;
+  onJobCardClick: (job: alljob) => void;
+  onPaginationNext:()=>void;
+  onPaginationPrev:()=>void;
+  handleUpdateNavigation :(job:alljob)=>void
 }
 
 const JobDashboardComponent: React.FC<JobDashboardProps> = ({
@@ -59,6 +61,9 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
   navigatePrev,
   onJobCardClick,
   selectedJob,
+  handleUpdateNavigation,
+  onPaginationNext,
+  onPaginationPrev
 }) => {
   return (
     <div className="min-h-screen space-y-5 px-10 py-6">
@@ -108,7 +113,11 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
 
       <div className="grid grid-cols-4 gap-4">
         {jobMetrics.map((metric) => (
-          <JobMetricsComponent key={metric.id} metrics={metric} icon={metric.icon} />
+          <JobMetricsComponent
+            key={metric.id}
+            metrics={metric}
+            icon={metric.icon}
+          />
         ))}
       </div>
       <div className="bg-white p-3 rounded-lg shadow-md  flex justify-between">
@@ -141,13 +150,22 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
         </div>
         <div className="flex items-center flex-row gap-2">
           <span className="text-sm">
-            {PAGE} {pagination?.currentPage || 1} {OF} {pagination?.totalPages || 1}
+            {PAGE} {pagination.currentPage} {OF}{" "}
+            {pagination.totalPages}
           </span>
           <div className="flex items-center gap-2 pr-2">
-            <button className="px-2 py-1 border rounded shadow-lg text-xs bg-gray-50 hover:bg-gray-300 font-medium text-gray-400 hover:text-gray-900">
+            <button
+              onClick={onPaginationPrev}
+              disabled={pagination.currentPage === 1}
+              className="px-2 py-1 border rounded shadow-lg text-xs bg-gray-50  font-medium text-gray-400  disabled:opacity-50"
+            >
               {PREV_BUTTON}
             </button>
-            <button className="px-2 py-1 border rounded shadow-lg text-xs bg-gray-50 hover:bg-gray-300 font-medium text-gray-400 hover:text-gray-900">
+            <button
+              onClick={onPaginationNext}
+              disabled={pagination.currentPage === pagination.totalPages}
+              className="px-2 py-1 border rounded shadow-lg text-xs bg-gray-50 font-medium text-gray-400 disabled:opacity-50"
+            >
               {NEXT_BUTTON}
             </button>
           </div>
@@ -181,6 +199,7 @@ const JobDashboardComponent: React.FC<JobDashboardProps> = ({
                 onDelete={onDelete}
                 onJobCardClick={onJobCardClick}
                 selected={selectedJob?.id === job.id}
+                onHandleUpdate={handleUpdateNavigation}
               />
             ))}
           </div>

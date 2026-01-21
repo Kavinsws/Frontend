@@ -1,14 +1,16 @@
-export interface Jobs {
+type Status = "OPEN" | "CLOSED" | "IN_REVIEW"
+
+export type Jobs= {
   title: string;
   department: string;
   location: string;
-  status: string;
+  status: Status;
   headcount: number;
   description: string;
   requirements: string;
 }
 
-export interface JobResponse{
+export type JobResponse={
   id:string,
   createdAt:Date,
   updatedAt:Date,
@@ -26,12 +28,12 @@ export interface JobErrorResponse{
   details?: string  
 }
 
-export interface alljob{
+export type alljob={
   id:string,
   title: string;
   department: string;
   location: string;
-  status: string;
+  status: Status;
   headcount: number;
   description: string;
   requirements: string;
@@ -39,28 +41,38 @@ export interface alljob{
   updatedAt:string
 }
 
-export interface paginationData{
+export type paginationData={
   currentPage:number,
   totalPages:number,
   totalResults:number
 }
-export interface AllJobResponse{
+export type AllJobResponse={
   message:string,
   pagination:paginationData,
   data:alljob[]
 }
 
-export interface JobCounts{
+export type JobCounts={
   id:string,
   status:string,
   count:number
   icon:React.ElementType
 }
 
-export interface JobCountResponse{
+export type JobCountResponse={
   message:string,
   totalJobs:number,
   openJobs:number,
   closedJobs:number,
   inReviewJobs:number,  
+}
+
+export type JobUpdateResponse={
+  id:string,
+  message:string,
+}
+
+export type paginationParams={
+  page:number,
+  limit:number
 }

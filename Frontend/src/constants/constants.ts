@@ -74,3 +74,9 @@ export const EDIT:string = "Edit "
 export const PAGE:string ="Page"
 
 export const OF:string="of"
+
+export const EDIT_JOB:string = "Edit Job"
+
+export const UPDATE_SUCCESS:string = "Job updated Successfully"
+
+export const UPDATE_BUTTON:string = "Update"
